@@ -12,7 +12,7 @@ using TrackerLibrary.Models;
 
 namespace TrackerUI
 {
-    public partial class CreatePrizeForm : Form
+  public partial class CreatePrizeForm : Form
   {
     public CreatePrizeForm()
     {
@@ -29,11 +29,7 @@ namespace TrackerUI
           prizeAmountValue.Text,
           prizePercentValue.Text);
 
-
-        foreach (var db in GlobalConfig.Connections)
-        {
-          db.CreatePrize(model);
-        }
+        GlobalConfig.Connection.CreatePrize(model);
 
         placeNumberValue.Text = "";
         placeNameValue.Text = "";
@@ -67,7 +63,7 @@ namespace TrackerUI
 
       if (isValidPrizeAmount == false || isValidPrizePercent == false) { result = false; }
 
-      if (prizeAmount <= 0 &&  prizePercent <= 0) {  result = false; }
+      if (prizeAmount <= 0 && prizePercent <= 0) { result = false; }
 
       if (prizePercent < 0 || prizePercent > 100) { result = false; }
 
