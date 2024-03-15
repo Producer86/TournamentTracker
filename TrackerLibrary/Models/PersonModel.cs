@@ -6,28 +6,33 @@ using System.Threading.Tasks;
 
 namespace TrackerLibrary.Models
 {
-    public class Person
-    {
-        /// <summary>
-        /// First name of Person.
-        /// </summary>
-        public string FirstName { get; set; }
+  public class PersonModel
+  {
+    /// <summary>
+    /// Unique identifier for Person.
+    /// </summary>
+    public int Id { get; set; }
 
-        /// <summary>
-        /// Last name of Person.
-        /// </summary>
-        public string LastName { get; set; }
+    /// <summary>
+    /// First name of PersonModel.
+    /// </summary>
+    public string FirstName { get; set; }
 
-        /// <summary>
-        /// Email address of Person.
-        /// Used to notify by email.
-        /// </summary>
-        public string EmailAddress { get; set; }
+    /// <summary>
+    /// Last name of PersonModel.
+    /// </summary>
+    public string LastName { get; set; }
 
-        /// <summary>
-        /// Cell phone number of Person.
-        /// Used to notify by text.
-        /// </summary>
-        public string CellPhoneNumber { get; set; }
-    }
+    /// <summary>
+    /// Email address of PersonModel.
+    /// Used to notify by email.
+    /// </summary>
+    public string EmailAddress { get; set; }
+
+    /// <summary>
+    /// Cell phone number of PersonModel.
+    /// Used to notify by text.
+    /// </summary>
+    public string CellPhoneNumber { get; set; }
+  }
 }

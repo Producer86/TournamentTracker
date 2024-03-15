@@ -17,12 +17,10 @@ namespace TrackerLibrary
       switch (connectionType)
       {
         case DatabaseType.Sql:
-          // TODO - Set up SqlConnector properly.
           SqlConnector sqlConnector = new SqlConnector();
           Connection = sqlConnector;
           break;
         case DatabaseType.Text:
-          // TODO - Set up TextConnector properly.
           TextConnector textConnector = new TextConnector();
           Connection = textConnector;
           break;

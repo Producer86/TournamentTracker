@@ -9,9 +9,9 @@ namespace TrackerLibrary.Models
     public class TeamModel
     {
         /// <summary>
-        /// Person memembers of this Team.
+        /// PersonModel memembers of this Team.
         /// </summary>
-        public List<Person> TeamMembers { get; set; } = new List<Person>();
+        public List<PersonModel> TeamMembers { get; set; } = new List<PersonModel>();
 
         /// <summary>
         /// The name of this Team.
