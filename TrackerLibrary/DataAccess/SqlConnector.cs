@@ -11,6 +11,7 @@ namespace TrackerLibrary.DataAccess
 {
   public class SqlConnector : IDataConnection
   {
+    private const string db = "Tournaments";
     /// <summary>
     /// Saves a new Person to the database.
     /// </summary>
@@ -18,7 +19,7 @@ namespace TrackerLibrary.DataAccess
     /// <returns>The PersonModel with it's Id set.</returns>
     public PersonModel CreatePerson(PersonModel model)
     {
-      using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString("Tournaments")))
+      using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
       {
         var p = new DynamicParameters();
         p.Add("@FirstName", model.FirstName);
@@ -42,7 +43,7 @@ namespace TrackerLibrary.DataAccess
     /// <returns>The PrizeModel with it's Id set.</returns>
     public PrizeModel CreatePrize(PrizeModel model)
     {
-      using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString("Tournaments")))
+      using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
       {
         var p = new DynamicParameters();
         p.Add("@PlaceNumber", model.PlaceNumber);
@@ -57,6 +58,21 @@ namespace TrackerLibrary.DataAccess
 
         return model;
       }
+    }
+
+    /// <summary>
+    /// Retrieves all person records from the database.
+    /// </summary>
+    /// <returns>A list of PersonModel objects representing all person records.</returns>
+    public List<PersonModel> GetPerson_All()
+    {
+      List<PersonModel> result;
+      using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
+      {
+        result = connection.Query<PersonModel>("dbo.spPeople_GetAll").ToList();
+      }
+
+      return result;
     }
   }
 }

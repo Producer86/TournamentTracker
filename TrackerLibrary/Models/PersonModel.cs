@@ -34,5 +34,16 @@ namespace TrackerLibrary.Models
     /// Used to notify by text.
     /// </summary>
     public string CellPhoneNumber { get; set; }
+
+    /// <summary>
+    /// Gets the full name by concatenating the first name and last name properties.
+    /// </summary>
+    public string FullName
+    {
+      get
+      {
+        return $"{FirstName} {LastName}";
+      }
+    }
   }
 }

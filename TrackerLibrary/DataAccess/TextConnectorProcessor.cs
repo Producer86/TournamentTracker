@@ -21,10 +21,10 @@ namespace TrackerLibrary.DataAccess.TextHelpers
     }
 
     /// <summary>
-    /// Split a text file into lines.
+    /// Loads the contents of a file specified by the filePath into a list of strings.
     /// </summary>
-    /// <param name="filePath">The full path of the file.</param>
-    /// <returns>Empty List<string> if the file doesn't exist.</string></returns>
+    /// <param name="filePath">The path to the file to be loaded.</param>
+    /// <returns>A list of strings containing the lines of the file, or an empty list if the file does not exist.</returns>
     public static List<string> LoadFile(this string filePath)
     {
       if (!File.Exists(filePath))

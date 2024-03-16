@@ -13,6 +13,11 @@ namespace TrackerLibrary.DataAccess
     private const string PrizesFile = "PrizeModels.csv";
     private const string PeopleFile = "PersonModel.csv";
 
+    /// <summary>
+    /// Saves a new Person to a text file.
+    /// </summary>
+    /// <param name="model">The PersonModel to save.</param>
+    /// <returns>The PersonModel with it's Id set.</returns>
     public PersonModel CreatePerson(PersonModel model)
     {
       // Load the text file
@@ -20,7 +25,7 @@ namespace TrackerLibrary.DataAccess
       List<PersonModel> people = PeopleFile.FullFilePath().LoadFile().ConvertToPersonModels();
 
       // Find the highest id
-      // Add new record with id+1
+      // Add new record with max id+1
       int currentId = 1;
       if (people.Count > 0)
       {
@@ -49,7 +54,7 @@ namespace TrackerLibrary.DataAccess
       List<PrizeModel> prizes = PrizesFile.FullFilePath().LoadFile().ConvertToPrizeModels();
 
       // Find the highest id
-      // Add new record with id+1
+      // Add new record with max id+1
       int currentId = 1;
       if (prizes.Count > 0)
       {
@@ -64,6 +69,15 @@ namespace TrackerLibrary.DataAccess
       prizes.SaveToPrizeFile(PrizesFile);
 
       return model;
+    }
+
+    /// <summary>
+    /// Retrieves all person records from a file.
+    /// </summary>
+    /// <returns>A list of PersonModel objects representing all person records.</returns>
+    public List<PersonModel> GetPerson_All()
+    {
+      return PeopleFile.FullFilePath().LoadFile().ConvertToPersonModels();
     }
   }
 }

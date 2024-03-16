@@ -45,7 +45,7 @@
       firstNameValue = new TextBox();
       firstNameLabel = new Label();
       teamMembersListBox = new ListBox();
-      deleteMemberButton = new Button();
+      removeMemberButton = new Button();
       createTeamButton = new Button();
       addNewMemberBox.SuspendLayout();
       SuspendLayout();
@@ -93,6 +93,7 @@
       addMemberButton.TabIndex = 17;
       addMemberButton.Text = "Add Member";
       addMemberButton.UseVisualStyleBackColor = true;
+      addMemberButton.Click += addMemberButton_Click;
       // 
       // selectTeamMemberDropDown
       // 
@@ -231,20 +232,21 @@
       teamMembersListBox.Size = new Size(401, 662);
       teamMembersListBox.TabIndex = 19;
       // 
-      // deleteMemberButton
+      // removeMemberButton
       // 
-      deleteMemberButton.FlatAppearance.BorderColor = Color.Silver;
-      deleteMemberButton.FlatAppearance.MouseDownBackColor = Color.Gray;
-      deleteMemberButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(224, 224, 224);
-      deleteMemberButton.FlatStyle = FlatStyle.Flat;
-      deleteMemberButton.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 238);
-      deleteMemberButton.ForeColor = SystemColors.Highlight;
-      deleteMemberButton.Location = new Point(965, 406);
-      deleteMemberButton.Name = "deleteMemberButton";
-      deleteMemberButton.Size = new Size(154, 75);
-      deleteMemberButton.TabIndex = 20;
-      deleteMemberButton.Text = "Delete Selected";
-      deleteMemberButton.UseVisualStyleBackColor = true;
+      removeMemberButton.FlatAppearance.BorderColor = Color.Silver;
+      removeMemberButton.FlatAppearance.MouseDownBackColor = Color.Gray;
+      removeMemberButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(224, 224, 224);
+      removeMemberButton.FlatStyle = FlatStyle.Flat;
+      removeMemberButton.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 238);
+      removeMemberButton.ForeColor = SystemColors.Highlight;
+      removeMemberButton.Location = new Point(965, 406);
+      removeMemberButton.Name = "removeMemberButton";
+      removeMemberButton.Size = new Size(154, 75);
+      removeMemberButton.TabIndex = 20;
+      removeMemberButton.Text = "Remove Selected";
+      removeMemberButton.UseVisualStyleBackColor = true;
+      removeMemberButton.Click += removeMemberButton_Click;
       // 
       // createTeamButton
       // 
@@ -268,7 +270,7 @@
       BackColor = Color.White;
       ClientSize = new Size(1140, 949);
       Controls.Add(createTeamButton);
-      Controls.Add(deleteMemberButton);
+      Controls.Add(removeMemberButton);
       Controls.Add(teamMembersListBox);
       Controls.Add(addNewMemberBox);
       Controls.Add(addMemberButton);
@@ -306,7 +308,7 @@
     private Label cellPhoneLabel;
     private Button createMemberButton;
     private ListBox teamMembersListBox;
-    private Button deleteMemberButton;
+    private Button removeMemberButton;
     private Button createTeamButton;
   }
 }
