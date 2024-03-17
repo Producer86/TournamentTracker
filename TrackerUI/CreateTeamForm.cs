@@ -51,12 +51,14 @@ namespace TrackerUI
 
     private void createMemberButton_Click(object sender, EventArgs e)
     {
-      if (ValidateForm())
+      if (validateForm())
       {
-        PersonModel person = new PersonModel();
-        person.FirstName = firstNameValue.Text;
-        person.LastName = lastNameValue.Text;
-        person.EmailAddress = emailValue.Text;
+        PersonModel person = new PersonModel
+        {
+          FirstName = firstNameValue.Text,
+          LastName = lastNameValue.Text,
+          EmailAddress = emailValue.Text
+        };
 
         string phoneValue = "";
         if (cellPhoneValue.Text.Length > 0) { phoneValue = cellPhoneValue.Text; }
@@ -75,7 +77,7 @@ namespace TrackerUI
       else { MessageBox.Show("First Name, Last Name and Email address are required."); }
     }
 
-    private bool ValidateForm()
+    private bool validateForm()
     {
       if (firstNameValue.Text.Length == 0)
       {
@@ -94,9 +96,7 @@ namespace TrackerUI
 
     private void addMemberButton_Click(object sender, EventArgs e)
     {
-      PersonModel person = selectTeamMemberDropDown.SelectedItem as PersonModel;
-
-      if (person != null)
+      if (selectTeamMemberDropDown.SelectedItem is PersonModel person)
       {
         availableTeamMembers.Remove(person);
         selectedTeamMembers.Add(person);
@@ -107,9 +107,7 @@ namespace TrackerUI
 
     private void removeMemberButton_Click(object sender, EventArgs e)
     {
-      PersonModel person = teamMembersListBox.SelectedItem as PersonModel;
-
-      if (person != null)
+      if (teamMembersListBox.SelectedItem is PersonModel person)
       {
         selectedTeamMembers.Remove(person);
         availableTeamMembers.Add(person);

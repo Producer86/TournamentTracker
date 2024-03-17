@@ -38,7 +38,7 @@
       createNewTeamLink = new LinkLabel();
       addTeamButton = new Button();
       createPrizeButton = new Button();
-      tournamentPlayersListBox = new ListBox();
+      tournamentTeamsListBox = new ListBox();
       tournamentPlayersLabel = new Label();
       prizesLabel = new Label();
       prizesListBox = new ListBox();
@@ -138,6 +138,7 @@
       addTeamButton.TabIndex = 14;
       addTeamButton.Text = "Add Team";
       addTeamButton.UseVisualStyleBackColor = true;
+      addTeamButton.Click += addTeamButton_Click;
       // 
       // createPrizeButton
       // 
@@ -154,15 +155,15 @@
       createPrizeButton.Text = "Create Prize";
       createPrizeButton.UseVisualStyleBackColor = true;
       // 
-      // tournamentPlayersListBox
+      // tournamentTeamsListBox
       // 
-      tournamentPlayersListBox.BorderStyle = BorderStyle.FixedSingle;
-      tournamentPlayersListBox.FormattingEnabled = true;
-      tournamentPlayersListBox.ItemHeight = 30;
-      tournamentPlayersListBox.Location = new Point(468, 140);
-      tournamentPlayersListBox.Name = "tournamentPlayersListBox";
-      tournamentPlayersListBox.Size = new Size(329, 182);
-      tournamentPlayersListBox.TabIndex = 16;
+      tournamentTeamsListBox.BorderStyle = BorderStyle.FixedSingle;
+      tournamentTeamsListBox.FormattingEnabled = true;
+      tournamentTeamsListBox.ItemHeight = 30;
+      tournamentTeamsListBox.Location = new Point(468, 140);
+      tournamentTeamsListBox.Name = "tournamentTeamsListBox";
+      tournamentTeamsListBox.Size = new Size(329, 182);
+      tournamentTeamsListBox.TabIndex = 16;
       // 
       // tournamentPlayersLabel
       // 
@@ -251,7 +252,7 @@
       Controls.Add(deletePlayerButton);
       Controls.Add(deletePrizeButton);
       Controls.Add(prizesListBox);
-      Controls.Add(tournamentPlayersListBox);
+      Controls.Add(tournamentTeamsListBox);
       Controls.Add(createPrizeButton);
       Controls.Add(addTeamButton);
       Controls.Add(createNewTeamLink);
@@ -284,7 +285,7 @@
     private LinkLabel createNewTeamLink;
     private Button addTeamButton;
     private Button createPrizeButton;
-    private ListBox tournamentPlayersListBox;
+    private ListBox tournamentTeamsListBox;
     private Label tournamentPlayersLabel;
     private Label prizesLabel;
     private ListBox prizesListBox;

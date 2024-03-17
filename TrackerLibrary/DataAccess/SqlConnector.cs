@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TrackerLibrary.Models;
@@ -105,6 +106,28 @@ namespace TrackerLibrary.DataAccess
       using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
       {
         result = connection.Query<PersonModel>("dbo.spPeople_GetAll").ToList();
+      }
+
+      return result;
+    }
+
+    /// <summary>
+    /// Retrieves all team records from the database.
+    /// </summary>
+    /// <returns>A list of TeamModel objects representing all team records.</returns>
+    public List<TeamModel> GetTeam_All()
+    {
+      List<TeamModel> result;
+      using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
+      {
+        result = connection.Query<TeamModel>("dbo.spTeam_GetAll").ToList();
+
+        foreach (var team in result)
+        {
+          var p = new DynamicParameters();
+          p.Add("@TeamId", team.Id);
+          team.TeamMembers = connection.Query<PersonModel>("dbo.spTeamMembers_GetByTeam", p, commandType: CommandType.StoredProcedure).ToList();
+        }
       }
 
       return result;
