@@ -23,7 +23,7 @@ namespace TrackerUI
 
     private void createPrizeButton_Click(object sender, EventArgs e)
     {
-      if (ValidateForm())
+      if (validateForm())
       {
         PrizeModel model = new PrizeModel(
           placeNumberValue.Text,
@@ -43,7 +43,7 @@ namespace TrackerUI
       else { MessageBox.Show("Invalid prize information."); }
     }
 
-    private bool ValidateForm()
+    private bool validateForm()
     {
       bool result = true;
 

@@ -90,15 +90,16 @@ namespace TrackerLibrary.DataAccess.TextHelpers
     }
 
     /// <summary>
-    /// Converts a list of strings representing team data into a list of TeamModel objects.
+    /// Converts a list of strings representing round data into a list of TeamModel objects.
     /// </summary>
-    /// <param name="lines">The list of strings representing team data.</param>
-    /// <param name="peopleFileName">The file name of the file containing person data.</param>
+    /// <param name="lines">The list of strings representing round data.</param>
+    /// <param name="peopleFileName">The file name of the file containing round data.</param>
     /// <returns>A list of TeamModel objects representing the teams.</returns>
     public static List<TeamModel> ConvertToTeamModels(this List<string> lines, string peopleFileName)
     {
       // What we expect in a line:
-      // id, team_name, list of person ids separated by pipe character
+      // 0,  1,         2,
+      // matchup, team_name, list of round ids separated by pipe character
       // 2, Joe's Team, 5|12|1
 
       List<TeamModel> result = [];
@@ -118,9 +119,53 @@ namespace TrackerLibrary.DataAccess.TextHelpers
 
         foreach (var id in personIds)
         {
-          // Find the person model with the matching id and add it to the team members
+          // Find the round round with the matching matchup and add it to the round members
           model.TeamMembers.Add(people.Where(x => x.Id == int.Parse(id)).First());
         }
+
+        result.Add(model);
+      }
+
+      return result;
+    }
+
+    public static List<TournamentModel> ConvertToTournamentModels(
+      this List<string> lines,
+      string teamFileName,
+      string peopleFileName,
+      string prizesFileName)
+    {
+      // What we expect in a line:
+      // 0,       1,              2,        3,                               4,                         5
+      // matchup, TournamentName, EntryFee, matchup|matchup = enteredTeamId, matchup|matchup = prizeId. matchup^matchup|matchup^matchup = matchupId
+
+      List<TournamentModel> result = [];
+      List<TeamModel> teams = teamFileName.FullFilePath().LoadFile().ConvertToTeamModels(peopleFileName);
+      List<PrizeModel> prizes = prizesFileName.FullFilePath().LoadFile().ConvertToPrizeModels();
+
+      foreach (var line in lines)
+      {
+        string[] cols = line.Split(",");
+        TournamentModel model = new TournamentModel
+        {
+          Id = int.Parse(cols[0]),
+          TournamentName = cols[1],
+          EntryFee = int.Parse(cols[2]),
+        };
+
+        string[] teamIds = cols[3].Split('|');
+        foreach (var id in teamIds)
+        {
+          model.EnteredTeams.Add(teams.Where(x => x.Id == int.Parse(id)).First());
+        }
+
+        string[] prizeIds = cols[4].Split('|');
+        foreach (var id in prizeIds)
+        {
+          model.Prizes.Add(prizes.Where(x => x.Id == int.Parse(id)).First());
+        }
+
+        // TODO - capture rounds information.
 
         result.Add(model);
       }
@@ -186,12 +231,90 @@ namespace TrackerLibrary.DataAccess.TextHelpers
     /// <param name="models">The list of PersonModel objects to be converted.</param>
     /// <returns>A string representing the IDs of the PersonModel objects separated by '|' characters.</returns>
     private static string ConvertPeopleListToString(List<PersonModel> models)
-
     {
       List<string> ids = [];
       foreach (var person in models)
       {
         ids.Add(person.Id.ToString());
+      }
+
+      string result = string.Join('|', ids);
+      return result;
+    }
+
+    public static void SaveToTournamentFile(this List<TournamentModel> models, string fileName)
+    {
+      // What we expect in a line:
+      // 0,       1,              2,        3,                               4,                         5
+      // matchup, TournamentName, EntryFee, matchup|matchup = enteredTeamId, matchup|matchup = prizeId. matchup^matchup|matchup^matchup = matchupId
+      List<string> lines = [];
+      foreach (var model in models)
+      {
+        lines.Add($@"{model.Id},
+          {model.TournamentName},
+          {model.EntryFee},
+          {ConvertTeamListToString(model.EnteredTeams)},
+          {ConvertPrizeListToString(model.Prizes)},
+          {ConvertRoundsListToString(model.Rounds)}");
+      }
+
+      File.WriteAllLines(fileName.FullFilePath(), lines);
+    }
+
+    /// <summary>
+    /// Converts a list of TeamModel objects into a string representation of their IDs separated by '|' characters.
+    /// </summary>
+    /// <param name="models">The list of TeamModel objects to be converted.</param>
+    /// <returns>A string representing the IDs of the TeamModel objects separated by '|' characters.</returns>
+    private static string ConvertTeamListToString(List<TeamModel> models)
+    {
+      List<string> ids = [];
+      foreach (var team in models)
+      {
+        ids.Add(team.Id.ToString());
+      }
+
+      string result = string.Join('|', ids);
+      return result;
+    }
+
+
+    /// <summary>
+    /// Converts a list of PrizeModel objects into a string representation of their IDs separated by '|' characters.
+    /// </summary>
+    /// <param name="models">The list of PrizeModel objects to be converted.</param>
+    /// <returns>A string representing the IDs of the PrizeModel objects separated by '|' characters.</returns>
+    private static string ConvertPrizeListToString(List<PrizeModel> models)
+    {
+      List<string> ids = [];
+      foreach (var prize in models)
+      {
+        ids.Add(prize.Id.ToString());
+      }
+
+      string result = string.Join('|', ids);
+      return result;
+    }
+
+
+    /// <summary>
+    /// Converts a list of rounds, each containing matchups, into a string representation of their IDs separated by '^' and '|' characters.
+    /// </summary>
+    /// <param name="rounds">The list of rounds containing matchups.</param>
+    /// <returns>A string representing the IDs of matchups in each round, separated by '^', and rounds separated by '|' characters.</returns>
+    private static string ConvertRoundsListToString(List<List<MatchupModel>> rounds)
+
+    {
+      // matchup^matchup|matchup^matchup = matchupId
+      List<string> ids = [];
+      foreach (List<MatchupModel> round in rounds)
+      {
+        List<string> matchups = [];
+        foreach (MatchupModel matchup in round)
+        {
+          matchups.Add(matchup.Id.ToString());
+        }
+        ids.Add(string.Join('^', matchups));
       }
 
       string result = string.Join('|', ids);

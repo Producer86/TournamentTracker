@@ -13,6 +13,7 @@ namespace TrackerLibrary.DataAccess
     private const string PrizesFile = "PrizeModels.csv";
     private const string PeopleFile = "PersonModel.csv";
     private const string TeamsFile = "TeamModels.csv";
+    private const string TournamentsFile = "TournamentModels.csv";
 
     /// <summary>
     /// Saves a new Person to a text file.
@@ -97,8 +98,34 @@ namespace TrackerLibrary.DataAccess
       // Convert teams to List<string>
       // Save List<string> to text file
       teams.SaveToTeamFile(TeamsFile);
-      
+
       return model;
+    }
+
+    public void CreateTournament(TournamentModel model)
+    {
+      // Load the text file
+      // Convert text to List<TournamentModel>
+      List<TournamentModel> tournaments = TournamentsFile.FullFilePath()
+                                                         .LoadFile()
+                                                         .ConvertToTournamentModels(TeamsFile,
+                                                                                    PeopleFile,
+                                                                                    PrizesFile);
+
+      // Find the highest id
+      // Add new record with max id+1
+      int currentId = 1;
+      if (tournaments.Count > 0)
+      {
+        currentId = tournaments.OrderByDescending(x => x.Id).First().Id + 1;
+      }
+      model.Id = currentId;
+
+      tournaments.Add(model);
+
+      // Convert teams to List<string>
+      // Save List<string> to text file
+      tournaments.SaveToTournamentFile(TournamentsFile);
     }
 
     /// <summary>
@@ -110,6 +137,10 @@ namespace TrackerLibrary.DataAccess
       return PeopleFile.FullFilePath().LoadFile().ConvertToPersonModels();
     }
 
+    /// <summary>
+    /// Retrieves all team records from a file.
+    /// </summary>
+    /// <returns>A list of TeamModel objects representing all team records.</returns>
     public List<TeamModel> GetTeam_All()
     {
       return TeamsFile.FullFilePath().LoadFile().ConvertToTeamModels(PeopleFile);
