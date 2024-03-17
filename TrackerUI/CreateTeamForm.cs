@@ -66,7 +66,7 @@ namespace TrackerUI
 
         availableTeamMembers.Add(person);
         wireUpLists();
-        
+
         firstNameValue.Text = "";
         lastNameValue.Text = "";
         emailValue.Text = "";
@@ -101,7 +101,7 @@ namespace TrackerUI
         availableTeamMembers.Remove(person);
         selectedTeamMembers.Add(person);
 
-        wireUpLists(); 
+        wireUpLists();
       }
     }
 
@@ -116,6 +116,17 @@ namespace TrackerUI
 
         wireUpLists();
       }
+    }
+
+    private void createTeamButton_Click(object sender, EventArgs e)
+    {
+      TeamModel team = new TeamModel();
+      team.TeamName = teamNameValue.Text.Trim();
+      team.TeamMembers = selectedTeamMembers;
+
+      team = GlobalConfig.Connection.CreateTeam(team);
+
+      // TODO - Reset the form if we don't close it.
     }
   }
 }
