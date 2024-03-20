@@ -100,13 +100,13 @@ namespace TrackerLibrary.DataAccess
     {
       using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
       {
-        SaveTournament(model, connection);
-        SaveTournamentPrizes(model, connection);
-        SaveTournamentEntries(model, connection);
+        _SaveTournament(model, connection);
+        _SaveTournamentPrizes(model, connection);
+        _SaveTournamentEntries(model, connection);
       }
     }
 
-    private static void SaveTournamentEntries(TournamentModel model, IDbConnection connection)
+    private static void _SaveTournamentEntries(TournamentModel model, IDbConnection connection)
     {
       foreach (var team in model.EnteredTeams)
       {
@@ -118,7 +118,7 @@ namespace TrackerLibrary.DataAccess
       }
     }
 
-    private static void SaveTournamentPrizes(TournamentModel model, IDbConnection connection)
+    private static void _SaveTournamentPrizes(TournamentModel model, IDbConnection connection)
     {
       foreach (var prize in model.Prizes)
       {
@@ -130,7 +130,7 @@ namespace TrackerLibrary.DataAccess
       }
     }
 
-    private static void SaveTournament(TournamentModel model, IDbConnection connection)
+    private static void _SaveTournament(TournamentModel model, IDbConnection connection)
     {
       var p = new DynamicParameters();
       p.Add("@TournamentName", model.TournamentName);

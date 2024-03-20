@@ -219,7 +219,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
 
       foreach (TeamModel model in models)
       {
-        lines.Add($"{model.Id},{model.TeamName},{ConvertPeopleListToString(model.TeamMembers)}");
+        lines.Add($"{model.Id},{model.TeamName},{_ConvertPeopleListToString(model.TeamMembers)}");
       }
 
       File.WriteAllLines(fileName.FullFilePath(), lines);
@@ -230,7 +230,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
     /// </summary>
     /// <param name="models">The list of PersonModel objects to be converted.</param>
     /// <returns>A string representing the IDs of the PersonModel objects separated by '|' characters.</returns>
-    private static string ConvertPeopleListToString(List<PersonModel> models)
+    private static string _ConvertPeopleListToString(List<PersonModel> models)
     {
       List<string> ids = [];
       foreach (var person in models)
@@ -253,9 +253,9 @@ namespace TrackerLibrary.DataAccess.TextHelpers
         lines.Add($@"{model.Id},
           {model.TournamentName},
           {model.EntryFee},
-          {ConvertTeamListToString(model.EnteredTeams)},
-          {ConvertPrizeListToString(model.Prizes)},
-          {ConvertRoundsListToString(model.Rounds)}");
+          {_ConvertTeamListToString(model.EnteredTeams)},
+          {_ConvertPrizeListToString(model.Prizes)},
+          {_ConvertRoundsListToString(model.Rounds)}");
       }
 
       File.WriteAllLines(fileName.FullFilePath(), lines);
@@ -266,7 +266,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
     /// </summary>
     /// <param name="models">The list of TeamModel objects to be converted.</param>
     /// <returns>A string representing the IDs of the TeamModel objects separated by '|' characters.</returns>
-    private static string ConvertTeamListToString(List<TeamModel> models)
+    private static string _ConvertTeamListToString(List<TeamModel> models)
     {
       List<string> ids = [];
       foreach (var team in models)
@@ -284,7 +284,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
     /// </summary>
     /// <param name="models">The list of PrizeModel objects to be converted.</param>
     /// <returns>A string representing the IDs of the PrizeModel objects separated by '|' characters.</returns>
-    private static string ConvertPrizeListToString(List<PrizeModel> models)
+    private static string _ConvertPrizeListToString(List<PrizeModel> models)
     {
       List<string> ids = [];
       foreach (var prize in models)
@@ -302,7 +302,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
     /// </summary>
     /// <param name="rounds">The list of rounds containing matchups.</param>
     /// <returns>A string representing the IDs of matchups in each round, separated by '^', and rounds separated by '|' characters.</returns>
-    private static string ConvertRoundsListToString(List<List<MatchupModel>> rounds)
+    private static string _ConvertRoundsListToString(List<List<MatchupModel>> rounds)
 
     {
       // matchup^matchup|matchup^matchup = matchupId

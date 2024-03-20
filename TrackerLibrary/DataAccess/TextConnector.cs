@@ -10,10 +10,10 @@ namespace TrackerLibrary.DataAccess
 {
   public class TextConnector : IDataConnection
   {
-    private const string PrizesFile = "PrizeModels.csv";
-    private const string PeopleFile = "PersonModel.csv";
-    private const string TeamsFile = "TeamModels.csv";
-    private const string TournamentsFile = "TournamentModels.csv";
+    private const string _PrizesFile = "PrizeModels.csv";
+    private const string _PeopleFile = "PersonModel.csv";
+    private const string _TeamsFile = "TeamModels.csv";
+    private const string _TournamentsFile = "TournamentModels.csv";
 
     /// <summary>
     /// Saves a new Person to a text file.
@@ -24,7 +24,7 @@ namespace TrackerLibrary.DataAccess
     {
       // Load the text file
       // Convert text to List<PersonModel>
-      List<PersonModel> people = PeopleFile.FullFilePath().LoadFile().ConvertToPersonModels();
+      List<PersonModel> people = _PeopleFile.FullFilePath().LoadFile().ConvertToPersonModels();
 
       // Find the highest id
       // Add new record with max id+1
@@ -39,7 +39,7 @@ namespace TrackerLibrary.DataAccess
 
       // Convert prizes to List<string>
       // Save List<string> to text file
-      people.SaveToPeopleFile(PeopleFile);
+      people.SaveToPeopleFile(_PeopleFile);
 
       return model;
     }
@@ -53,7 +53,7 @@ namespace TrackerLibrary.DataAccess
     {
       // Load the text file
       // Convert text to List<PrizeModel>
-      List<PrizeModel> prizes = PrizesFile.FullFilePath().LoadFile().ConvertToPrizeModels();
+      List<PrizeModel> prizes = _PrizesFile.FullFilePath().LoadFile().ConvertToPrizeModels();
 
       // Find the highest id
       // Add new record with max id+1
@@ -68,7 +68,7 @@ namespace TrackerLibrary.DataAccess
 
       // Convert prizes to List<string>
       // Save List<string> to text file
-      prizes.SaveToPrizeFile(PrizesFile);
+      prizes.SaveToPrizeFile(_PrizesFile);
 
       return model;
     }
@@ -82,7 +82,7 @@ namespace TrackerLibrary.DataAccess
     {
       // Load the text file
       // Convert text to List<TeamModel>
-      List<TeamModel> teams = TeamsFile.FullFilePath().LoadFile().ConvertToTeamModels(PeopleFile);
+      List<TeamModel> teams = _TeamsFile.FullFilePath().LoadFile().ConvertToTeamModels(_PeopleFile);
 
       // Find the highest id
       // Add new record with max id+1
@@ -97,7 +97,7 @@ namespace TrackerLibrary.DataAccess
 
       // Convert teams to List<string>
       // Save List<string> to text file
-      teams.SaveToTeamFile(TeamsFile);
+      teams.SaveToTeamFile(_TeamsFile);
 
       return model;
     }
@@ -106,11 +106,11 @@ namespace TrackerLibrary.DataAccess
     {
       // Load the text file
       // Convert text to List<TournamentModel>
-      List<TournamentModel> tournaments = TournamentsFile.FullFilePath()
+      List<TournamentModel> tournaments = _TournamentsFile.FullFilePath()
                                                          .LoadFile()
-                                                         .ConvertToTournamentModels(TeamsFile,
-                                                                                    PeopleFile,
-                                                                                    PrizesFile);
+                                                         .ConvertToTournamentModels(_TeamsFile,
+                                                                                    _PeopleFile,
+                                                                                    _PrizesFile);
 
       // Find the highest id
       // Add new record with max id+1
@@ -125,7 +125,7 @@ namespace TrackerLibrary.DataAccess
 
       // Convert teams to List<string>
       // Save List<string> to text file
-      tournaments.SaveToTournamentFile(TournamentsFile);
+      tournaments.SaveToTournamentFile(_TournamentsFile);
     }
 
     /// <summary>
@@ -134,7 +134,7 @@ namespace TrackerLibrary.DataAccess
     /// <returns>A list of PersonModel objects representing all person records.</returns>
     public List<PersonModel> GetPerson_All()
     {
-      return PeopleFile.FullFilePath().LoadFile().ConvertToPersonModels();
+      return _PeopleFile.FullFilePath().LoadFile().ConvertToPersonModels();
     }
 
     /// <summary>
@@ -143,7 +143,7 @@ namespace TrackerLibrary.DataAccess
     /// <returns>A list of TeamModel objects representing all team records.</returns>
     public List<TeamModel> GetTeam_All()
     {
-      return TeamsFile.FullFilePath().LoadFile().ConvertToTeamModels(PeopleFile);
+      return _TeamsFile.FullFilePath().LoadFile().ConvertToTeamModels(_PeopleFile);
     }
   }
 }

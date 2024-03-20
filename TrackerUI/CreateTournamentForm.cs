@@ -61,7 +61,7 @@ namespace TrackerUI
     public void PrizeComplete(PrizeModel model)
     {
       // Get back from the form a PrizeModel
-      // Take the model and put it into our selected prizes
+      // Take the tourney and put it into our selected prizes
       selectedPrizes.Add(model);
       wireUpLists();
     }
@@ -108,20 +108,20 @@ namespace TrackerUI
       }
 
       // Create TournamentModel
-      TournamentModel model = new TournamentModel();
-      model.TournamentName = tournamentNameValue.Text;
-      model.EntryFee = decimal.Parse(entryFeeValue.Text);
+      TournamentModel tourney = new TournamentModel();
+      tourney.TournamentName = tournamentNameValue.Text;
+      tourney.EntryFee = decimal.Parse(entryFeeValue.Text);
 
-      model.Prizes = selectedPrizes;
-      model.EnteredTeams = selectedTeams;
+      tourney.Prizes = selectedPrizes;
+      tourney.EnteredTeams = selectedTeams;
 
       // Create Matchups.
-      // TODO - Create Matchups.
+      TournamentLogic.CreateRounds(tourney);
 
       // Create Tournament entry.
       // Create all Prize entries.
       // Create all Team entries.
-      GlobalConfig.Connection.CreateTournament(model);
+      GlobalConfig.Connection.CreateTournament(tourney);
     }
 
     private bool validateForm()
